@@ -1,0 +1,276 @@
+import { createClient } from '@supabase/supabase-js'
+
+export const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_ANON_KEY
+)
+
+// ─── CATEGORIES ─────────────────────────────────────────────────────────────
+export const HOME_CATEGORIES = [
+  'General Contractor', 'Electrician', 'Plumber', 'HVAC',
+  'Painter', 'Landscaper', 'Roofer', 'Cleaning Service',
+  'Handyman', 'Other (Home Service)'
+]
+
+export const PERSONAL_CATEGORIES = [
+  'Barber', 'Hair Stylist', 'Esthetician',
+  'Nail Technician', 'Massage Therapist', 'Other (Personal Service)'
+]
+
+// ─── QUESTIONS ───────────────────────────────────────────────────────────────
+// signal_type: positive | neutral | risk | critical_risk
+export const HOME_QUESTIONS = [
+  {
+    key: 'showed_up',
+    text: 'Did they show up as scheduled?',
+    options: [
+      { label: 'Yes',     signal: 'positive',       value: 10 },
+      { label: 'Late',    signal: 'neutral',         value: 5  },
+      { label: 'No-show', signal: 'critical_risk',   value: 0  },
+    ]
+  },
+  {
+    key: 'work_completed',
+    text: 'Was the work completed?',
+    options: [
+      { label: 'Fully completed',  signal: 'positive',     value: 10 },
+      { label: 'Mostly completed', signal: 'risk',          value: 5  },
+      { label: 'Not completed',    signal: 'critical_risk', value: 0  },
+    ]
+  },
+  {
+    key: 'on_time',
+    text: 'Was the work completed within the agreed timeframe?',
+    options: [
+      { label: 'Yes',                   signal: 'positive', value: 10 },
+      { label: 'Delayed',               signal: 'neutral',  value: 5  },
+      { label: 'Significantly delayed', signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'quality',
+    text: 'Were there any issues with the completed work?',
+    options: [
+      { label: 'No issues',    signal: 'positive',     value: 10 },
+      { label: 'Minor issues', signal: 'neutral',       value: 5  },
+      { label: 'Major issues', signal: 'critical_risk', value: 0  },
+    ]
+  },
+  {
+    key: 'rework',
+    text: 'Did they need to return to fix or redo any work?',
+    options: [
+      { label: 'No',            signal: 'positive', value: 10 },
+      { label: 'Minor fixes',   signal: 'neutral',  value: 5  },
+      { label: 'Major rework',  signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'cost_match',
+    text: 'Did the final cost match what was originally agreed?',
+    options: [
+      { label: 'Yes',            signal: 'positive',     value: 10 },
+      { label: 'Minor increase', signal: 'neutral',       value: 5  },
+      { label: 'Major increase', signal: 'critical_risk', value: 0  },
+    ]
+  },
+  {
+    key: 'cost_changes',
+    text: 'Were there any cost changes during the service?',
+    options: [
+      { label: 'No',                               signal: 'positive', value: 10 },
+      { label: 'Yes, and they were explained',     signal: 'neutral',  value: 5  },
+      { label: 'Yes, and they were not explained', signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'scope',
+    text: 'Did they stay within the agreed scope of work?',
+    options: [
+      { label: 'Yes',               signal: 'positive', value: 10 },
+      { label: 'Minor changes',     signal: 'neutral',  value: 5  },
+      { label: 'Frequent changes',  signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'communication',
+    text: 'Was communication clear and consistent?',
+    options: [
+      { label: 'Yes',          signal: 'positive', value: 10 },
+      { label: 'Inconsistent', signal: 'neutral',  value: 5  },
+      { label: 'Poor',         signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'professionalism',
+    text: 'Did they operate professionally on the job?',
+    options: [
+      { label: 'Yes',         signal: 'positive', value: 10 },
+      { label: 'Some issues', signal: 'neutral',  value: 5  },
+      { label: 'No',          signal: 'risk',     value: 0  },
+    ]
+  },
+]
+
+export const PERSONAL_QUESTIONS = [
+  {
+    key: 'on_time',
+    text: 'Did your appointment start on time?',
+    options: [
+      { label: 'Yes',                          signal: 'positive',     value: 10 },
+      { label: 'Slightly late',                signal: 'neutral',       value: 5  },
+      { label: 'Significantly delayed',        signal: 'critical_risk', value: 0  },
+    ]
+  },
+  {
+    key: 'service_completed',
+    text: 'Was the service completed as expected?',
+    options: [
+      { label: 'Yes',    signal: 'positive', value: 10 },
+      { label: 'Mostly', signal: 'neutral',  value: 5  },
+      { label: 'No',     signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'satisfied',
+    text: 'Were you satisfied with the result?',
+    options: [
+      { label: 'Yes',      signal: 'positive', value: 10 },
+      { label: 'Somewhat', signal: 'neutral',  value: 5  },
+      { label: 'No',       signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'rushed',
+    text: 'Did the service feel rushed or properly done?',
+    options: [
+      { label: 'Properly done',    signal: 'positive', value: 10 },
+      { label: 'Somewhat rushed',  signal: 'neutral',  value: 5  },
+      { label: 'Rushed / careless',signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'within_time',
+    text: 'Did the service stay within the time you were originally booked for?',
+    options: [
+      { label: 'Yes',                  signal: 'positive', value: 10 },
+      { label: 'Slightly longer',      signal: 'neutral',  value: 5  },
+      { label: 'Significantly longer', signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'price_match',
+    text: 'Did the final price match what was communicated beforehand?',
+    options: [
+      { label: 'Yes',              signal: 'positive',     value: 10 },
+      { label: 'Minor difference', signal: 'neutral',       value: 5  },
+      { label: 'Major difference', signal: 'critical_risk', value: 0  },
+    ]
+  },
+  {
+    key: 'price_changes',
+    text: 'Were there any price changes during the service?',
+    options: [
+      { label: 'No',                               signal: 'positive', value: 10 },
+      { label: 'Yes, and they were explained',     signal: 'neutral',  value: 5  },
+      { label: 'Yes, and they were not explained', signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'communication',
+    text: 'Was communication clear and professional?',
+    options: [
+      { label: 'Yes',          signal: 'positive', value: 10 },
+      { label: 'Inconsistent', signal: 'neutral',  value: 5  },
+      { label: 'Poor',         signal: 'risk',     value: 0  },
+    ]
+  },
+  {
+    key: 'scheduling',
+    text: 'Was it easy to book an appointment with them?',
+    options: [
+      { label: 'Yes',             signal: 'positive', value: 10 },
+      { label: 'Some difficulty', signal: 'neutral',  value: 5  },
+      { label: 'Difficult',       signal: 'risk',     value: 0  },
+    ]
+  },
+]
+
+// ─── KEY POINT MESSAGES ──────────────────────────────────────────────────────
+const HOME_MESSAGES = {
+  showed_up:      { critical_risk: 'Did not show up and gave no notice.',                        risk: null,                                                neutral: 'Arrived late but communicated ahead of time.',        positive: 'Showed up on time as scheduled.' },
+  work_completed: { critical_risk: 'Work was not completed as agreed.',                          risk: 'Work was mostly completed but not fully delivered.', neutral: null,                                                  positive: 'Work was fully completed as agreed.' },
+  on_time:        { critical_risk: null,                                                          risk: 'Work was significantly delayed beyond the agreed timeframe.', neutral: 'Minor delays were reported.',               positive: 'Work was completed within the agreed timeframe.' },
+  quality:        { critical_risk: 'Work quality was not acceptable at completion.',              risk: null,                                                neutral: 'Minor quality issues were noted.',                    positive: 'No issues with the quality of work.' },
+  rework:         { critical_risk: null,                                                          risk: 'Major rework was required after initial completion.',neutral: 'Minor fixes were needed after completion.',           positive: 'No rework was required.' },
+  cost_match:     { critical_risk: 'Final cost significantly exceeded the agreed price.',         risk: null,                                                neutral: 'Minor cost change occurred but was explained.',       positive: 'Final cost matched the agreed price.' },
+  cost_changes:   { critical_risk: null,                                                          risk: 'Cost changes were made without explanation.',        neutral: 'Cost changes occurred and were explained.',           positive: 'No unexpected cost changes.' },
+  scope:          { critical_risk: null,                                                          risk: 'Frequent scope changes were made without approval.', neutral: 'Minor scope changes were noted.',                    positive: 'Work stayed within the agreed scope.' },
+  communication:  { critical_risk: null,                                                          risk: 'Poor or no communication throughout the project.',   neutral: 'Communication was inconsistent at times.',            positive: 'Communication was clear and consistent.' },
+  professionalism:{ critical_risk: null,                                                          risk: 'Unprofessional behavior was reported on-site.',      neutral: 'Some professionalism issues were noted.',             positive: 'Operated professionally throughout.' },
+}
+
+const PERSONAL_MESSAGES = {
+  on_time:         { critical_risk: 'Significantly late or did not show up for the appointment.', risk: null,                                               neutral: 'Appointment started slightly late.',                  positive: 'Appointment started on time.' },
+  service_completed:{ critical_risk: null,                                                          risk: 'Service was not completed as expected.',            neutral: 'Service was mostly but not fully completed.',         positive: 'Service was completed as expected.' },
+  satisfied:       { critical_risk: null,                                                          risk: 'Not satisfied with the result.',                     neutral: 'Somewhat satisfied with the result.',                 positive: 'Satisfied with the result.' },
+  rushed:          { critical_risk: null,                                                          risk: 'Service felt rushed or careless.',                   neutral: 'Service felt somewhat rushed at times.',              positive: 'Service was performed properly.' },
+  within_time:     { critical_risk: null,                                                          risk: 'Service significantly exceeded the booked time.',    neutral: 'Service ran slightly over the booked time.',          positive: 'Service stayed within the booked time.' },
+  price_match:     { critical_risk: 'Final price significantly exceeded the quoted amount.',       risk: null,                                                neutral: 'Minor price difference occurred but was explained.',  positive: 'Final price matched the quote.' },
+  price_changes:   { critical_risk: null,                                                          risk: 'Price changes were made without explanation.',       neutral: 'Price changes occurred and were explained.',          positive: 'No unexpected price changes.' },
+  communication:   { critical_risk: null,                                                          risk: 'Communication was poor before or during the service.',neutral: 'Communication was inconsistent at times.',           positive: 'Communication was clear and professional.' },
+  scheduling:      { critical_risk: null,                                                          risk: 'Appointment was very difficult to schedule.',        neutral: 'Some difficulty scheduling the appointment.',         positive: 'Easy to book an appointment.' },
+}
+
+// ─── VERDICT ENGINE ──────────────────────────────────────────────────────────
+export function calculateOutcome(responses) {
+  const signals = responses.map(r => r.signal_type)
+  const criticalCount = signals.filter(s => s === 'critical_risk').length
+  const riskCount     = signals.filter(s => s === 'risk').length
+
+  // Rule 1: 2+ critical risk → High Risk
+  if (criticalCount >= 2) return 'High Risk'
+
+  // Rule 2: 1 critical risk → Risk (score capped at 65)
+  if (criticalCount === 1) return 'Risk'
+
+  // Rule 3: no critical + 1+ risk → Caution
+  if (riskCount >= 1) return 'Caution'
+
+  // Rule 4: all positive/neutral → Clear
+  return 'Clear'
+}
+
+export function calculateScore(responses, outcome) {
+  const total    = responses.reduce((sum, r) => sum + r.answer_value, 0)
+  const maxTotal = responses.length * 10
+  let score = Math.round((total / maxTotal) * 100)
+
+  // Cap score at 65 if outcome is Risk (1 critical signal)
+  if (outcome === 'Risk') score = Math.min(score, 65)
+
+  return score
+}
+
+export function buildKeyPoints(responses, serviceType) {
+  const messages = serviceType === 'personal' ? PERSONAL_MESSAGES : HOME_MESSAGES
+  const critical = [], risk = [], positive = []
+
+  responses.forEach(r => {
+    const msg = messages[r.question_key]?.[r.signal_type]
+    if (!msg) return
+    if (r.signal_type === 'critical_risk') critical.push(msg)
+    else if (r.signal_type === 'risk')     risk.push(msg)
+    else if (r.signal_type === 'positive') positive.push(msg)
+  })
+
+  // Priority: critical first, then risk, then positive (only if no issues)
+  const points = [...critical, ...risk]
+  if (points.length === 0) {
+    positive.slice(0, 5).forEach(p => points.push(p))
+  } else {
+    positive.slice(0, Math.max(0, 5 - points.length)).forEach(p => points.push(p))
+  }
+
+  return points.slice(0, 5)
+}
